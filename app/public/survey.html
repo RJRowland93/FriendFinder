@@ -95,8 +95,10 @@
     $('select').material_select();
   });
 
+// user submit info
+  $("#enter").on("click", function(e) {
+    e.preventDefault();
 
-  $("#enter").on("click", function() {
     var newUser = {
       name: $("#userName").val().trim(),
       photo: $("#userPic").val().trim(),
@@ -105,12 +107,47 @@
 
     for (var i = 1; i <= 10; i++) {
       var number = ("#q" + i).val();
-      newUser.scores.push(number);
+      newUser.scores.push(parseInt(number));
     } //end question score loop
     
+  // send to server, run math and clear answers
+  var currentURL = window.location.origin;
 
+  $.POST(currentURL + "/api/newfriend", newUser, function() {
+    $("#userName").val("");
+    $("#userPic").val("");
+  });
+
+  // run match
+  match();
+  
   }); //end submit click
 
+  function match() {
+
+    var currentURL = window.location.origin;
+    var difference = [];
+    var
+
+    //get data from API
+    $.ajax({url: currentURL + "/api/friends", method: "GET"})
+    .done(function(data) {
+      console.log(data);
+      //set existing data to new var so all info is kept
+      var friends = data;
+      //get user info
+      var user = friends.pop();
+      console.log(user);
+
+      //get difference between user score and friends score
+
+      for (var i = 0; i < friends.length; i++) {
+        for (var j = 0; j < friends.length; j++){
+          var diff = Math.abs(friends[i].scores[j] - user.scores[j]);
+        }
+      }
+    }); 
+  }
 
 </script>
 </body>
