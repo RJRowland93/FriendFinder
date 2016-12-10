@@ -1,6 +1,11 @@
 var path = require("path");
 
 module.exports = function(app) {
+
+	app.get("/", function(req, res) {
+		res.sendFile(path.join(__dirname + "/../public/home.html"));
+	}); // end home route
+
 	app.get("/survey", function(req, res) {
 		res.sendFile(path.join(__dirname + "/../public/survey.html"));
 	}); //end get survey
@@ -8,5 +13,5 @@ module.exports = function(app) {
 // If no matching route is found default to home
 	app.use(function(req, res) {
 		res.sendFile(path.join(__dirname + "/../public/home.html"));
-	}); // end home get
-}
+	}); // default to home
+};
