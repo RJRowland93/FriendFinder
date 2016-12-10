@@ -14,7 +14,7 @@
 <!-- Compiled and minified JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
 <!-- CSS for Slider -->
-<link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" type="text/css" href="public/css/style.css">
 </head>
 <body>
 <header class="center">
@@ -28,12 +28,12 @@
     <div class="row">
       <div class="input-field col m6 s12">
         <i class="material-icons prefix">account_circle</i>
-        <input id="icon_prefix" type="text" class="validate" id="userName">
+        <input id="icon_prefix" type="text" class="validate">
         <label for="icon_prefix">Name</label>
       </div>
       <div class="input-field col m6 s12">
         <i class="material-icons prefix">work</i>
-        <input id="icon_work" type="text" class="validate" id="userPic">
+        <input id="icon_work" type="text" class="validate">
         <label for="icon_work">Image URL</label>
       </div>
     </div>
@@ -100,26 +100,29 @@
     e.preventDefault();
 
     var newUser = {
-      name: $("#userName").val().trim(),
-      photo: $("#userPic").val().trim(),
+      name: $("#icon_prefix").val(),
+      photo: $("#icon_work").val(),
       scores: []
     };
 
-    for (var i = 1; i <= 10; i++) {
-      var number = ("#q" + i).val();
+    for (var i = 1; i <= 3; i++) {
+      var number = $("#q" + i).val();
+      console.log(number);
       newUser.scores.push(parseInt(number));
     } //end question score loop
+
+    console.log(newUser);
     
   // send to server, run math and clear answers
   var currentURL = window.location.origin;
 
-  $.POST(currentURL + "/api/newfriend", newUser, function() {
-    $("#userName").val("");
-    $("#userPic").val("");
+  $.post(currentURL + "/api/friends", newUser, function() {
+    $("icon_prefix").val("");
+    $("#icon_work").val("");
   });
 
   // run match
-  match();
+  //match();
   
   }); //end submit click
 
@@ -127,11 +130,13 @@
 
     var currentURL = window.location.origin;
     var difference = [];
-    var
+    
 
     //get data from API
-    $.ajax({url: currentURL + "/api/friends", method: "GET"})
-    .done(function(data) {
+    $.ajax({
+      url: currentURL + "/api/friends", 
+      method: "GET"
+    }).done(function(data) {
       console.log(data);
       //set existing data to new var so all info is kept
       var friends = data;

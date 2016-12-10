@@ -17,7 +17,7 @@ module.exports = function(app) {
 		}
 	}); //end get
 
-	app.post("/api/newfriend", function(req, res) {
+	app.post("/api/friends", function(req, res) {
 		var newfriend = req.body;
 		newfriend.route = newfriend.name.replace(/\s+/g, "").toLowerCase();
 		// change new friend scores to numbers
