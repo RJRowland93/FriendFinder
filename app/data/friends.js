@@ -26,7 +26,6 @@ var friends = [{
 	name: "Dooby",
 	photo: "https://www.what-dog.net/Images/faces2/main002.jpg", 
 	scores: [5, 5, 5]
-}
-];
+}];
 
 module.exports = friends;

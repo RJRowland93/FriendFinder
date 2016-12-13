@@ -23,7 +23,8 @@
 <main class="container">
 
 <!-- action="/api/friends" method="POST" -->
-  <form >
+<!-- action="/api/friends" method="POST" role="form"
+ -->  <form >
 
     <div class="row">
       <div class="input-field col m6 s12">
@@ -99,60 +100,35 @@
   $("#enter").on("click", function(e) {
     e.preventDefault();
 
-    var newUser = {
-      name: $("#icon_prefix").val(),
-      photo: $("#icon_work").val(),
-      scores: []
-    };
+    var inputs = [];
 
     for (var i = 1; i <= 3; i++) {
       var number = $("#q" + i).val();
-      console.log(number);
-      newUser.scores.push(parseInt(number));
+      inputs.push(number);
     } //end question score loop
 
+    var newUser = {
+      name: $("#icon_prefix").val(),
+      photo: $("#icon_work").val(),
+      scores: inputs
+    };
+
+    newUser.route = newUser.name.replace(/\s+/g, "").toLowerCase();
+
     console.log(newUser);
-    
+
   // send to server, run math and clear answers
   var currentURL = window.location.origin;
+  console.log(currentURL);
 
-  $.post(currentURL + "/api/friends", newUser, function() {
+  $.post(currentURL + "/api/friends", newUser,  
+    function(data) {
+    console.log(data);
     $("icon_prefix").val("");
     $("#icon_work").val("");
   });
-
-  // run match
-  //match();
   
   }); //end submit click
-
-  function match() {
-
-    var currentURL = window.location.origin;
-    var difference = [];
-    
-
-    //get data from API
-    $.ajax({
-      url: currentURL + "/api/friends", 
-      method: "GET"
-    }).done(function(data) {
-      console.log(data);
-      //set existing data to new var so all info is kept
-      var friends = data;
-      //get user info
-      var user = friends.pop();
-      console.log(user);
-
-      //get difference between user score and friends score
-
-      for (var i = 0; i < friends.length; i++) {
-        for (var j = 0; j < friends.length; j++){
-          var diff = Math.abs(friends[i].scores[j] - user.scores[j]);
-        }
-      }
-    }); 
-  }
 
 </script>
 </body>

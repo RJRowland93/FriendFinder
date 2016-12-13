@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 
-app.use(express.static(__dirname+"/app"));
+app.use(express.static(__dirname + "/app/public"));
 
 require("./app/routing/api-routes.js")(app);
 require("./app/routing/html-routes.js")(app);
