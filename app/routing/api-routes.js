@@ -21,7 +21,10 @@ module.exports = function(app) {
 
 		var newfriend = req.body;
 
-		function add(a,b) {
+		function findMatch () {
+
+		// function to add all values of an array
+			function add(a,b) {
         	return a+b;
         }
 
@@ -30,6 +33,7 @@ module.exports = function(app) {
 			newfriend.scores[i] = parseInt(newfriend.scores[i]);
 		}
 
+		// find the difference between all of the friends and the user submitted info
 		var totalDiff = [];
 		for (var i = 0; i < friends.length; i++) {
 		var friendDiff = [];
@@ -39,25 +43,27 @@ module.exports = function(app) {
 
         friendSum = friendDiff.reduce(add, 0);
         totalDiff.push(friendSum);
-      }
+      	}
 
-		console.log(totalDiff);
-
+      	// find the lowest value of an array
       	Array.min = function (array) {
       		return Math.min.apply(Math, array);
       	}
 
 		var lowest = Array.min(totalDiff);
 
-		console.log("Lowest: "+lowest);
-		console.log("Index: "+totalDiff.indexOf(lowest));
-
+		// match the lowest value to the corresponding friend
 		var match = friends[totalDiff.indexOf(lowest)];
 		console.log("Match: "+match.name);
 
 		res.json(match);
 
-		//friends.push(newfriend);
+		friends.push(newfriend);
+		}
+
+		findMatch();
+
+		
 	}); //end post
 
 };
