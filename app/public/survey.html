@@ -115,17 +115,14 @@
 
     newUser.route = newUser.name.replace(/\s+/g, "").toLowerCase();
 
-    console.log(newUser);
-
   // send to server, run math and clear answers
   var currentURL = window.location.origin;
-  console.log(currentURL);
 
-  $.post(currentURL + "/api/friends", newUser,  
-    function(data) {
+  $.post(currentURL+"/api/friends", newUser, function(data) {
     console.log(data);
-    $("icon_prefix").val("");
-    $("#icon_work").val("");
+    console.log(data.name);
+    // $("icon_prefix").val("");
+    // $("#icon_work").val("");
   });
   
   }); //end submit click

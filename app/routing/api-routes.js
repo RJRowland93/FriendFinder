@@ -21,27 +21,40 @@ module.exports = function(app) {
 
 		var newfriend = req.body;
 
+		function add(a,b) {
+        	return a+b;
+        }
+
 		// change new friend scores to numbers
 		for (var i = 0; i < newfriend.scores.length; i++) {
 			newfriend.scores[i] = parseInt(newfriend.scores[i]);
 		}
 
-		var diff = [];
-
+		var totalDiff = [];
 		for (var i = 0; i < friends.length; i++) {
-        for (var j = 0; j < friends.length; j++){
-          diff.push(Math.abs(friends[i].scores[j] - newfriend.scores[j]));
+		var friendDiff = [];
+        for (var j = 0; j < friends[i].scores.length; j++){
+          friendDiff.push(Math.abs(friends[i].scores[j] - newfriend.scores[j]));
         }
+
+        friendSum = friendDiff.reduce(add, 0);
+        totalDiff.push(friendSum);
       }
-		
+
+		console.log(totalDiff);
+
       	Array.min = function (array) {
       		return Math.min.apply(Math, array);
       	}
 
-		var lowest = Array.min(diff);
+		var lowest = Array.min(totalDiff);
 
-		var match = friends[friends.indexOf(lowest)];
-		
+		console.log("Lowest: "+lowest);
+		console.log("Index: "+totalDiff.indexOf(lowest));
+
+		var match = friends[totalDiff.indexOf(lowest)];
+		console.log("Match: "+match.name);
+
 		res.json(match);
 
 		//friends.push(newfriend);
